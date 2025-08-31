@@ -29,8 +29,13 @@
     autoindent = true;
     smartindent = false;
     cursorline = true;
+    hlsearch = true;
+    incsearch = true;
+    ignorecase = true;
+    scrolloff = 12;
+    exrc = true;
     list = true;
-    listchars.__raw = "{ tab = '» ', trail = '·', nbsp = '␣',eol = '↴' }";
+    listchars.__raw = "{ tab = '» ', trail = '·', nbsp = '␣', eol = '↴'}";
   };
 
   globals = {
