@@ -8,8 +8,13 @@
   plugins = {
     dap.enable = true;
     dap-ui.enable = true;
-    treesitter.enable = true;
+    treesitter = {
+      enable = true;
+      settings.highlight.enable = true;
+    };
     treesitter-textobjects.enable = true;
+    hmts.enable = true; # Home Manager Treesitter queries
+    ledger.enable = true;
     lint = {
       enable = true;
       lintersByFt = {
@@ -32,6 +37,19 @@
       enable = true;
       inlayHints = true;
     };
+    # Snippets
+    friendly-snippets.enable = true;
+    luasnip = {
+      enable = true;
+      fromVscode = [ { } ];
+      fromLua = [
+        { }
+        {
+          paths.__raw = "vim.fn.getcwd() .. '/.luasnippets'";
+        }
+      ];
+    };
+    cmp_luasnip.enable = true;
     cmp = {
       enable = true;
       autoEnableSources = true;
@@ -79,6 +97,7 @@
         };
         sources = [
           { name = "nvim_lsp"; }
+          { name = "luasnip"; }
           { name = "path"; }
           { name = "buffer"; }
           { name = "nvim_lua"; }
@@ -90,18 +109,19 @@
         ];
         snippet.expand.__raw = ''
           function(args)
-            vim.snippet.expand(args.body)
+            require('luasnip').lsp_expand(args.body)
           end
         '';
-        mapping.__raw = ''
-          cmp.mapping.preset.insert({
-            ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-            ['<C-f>'] = cmp.mapping.scroll_docs(4),
-            ['<C-Space>'] = cmp.mapping.complete(),
-            ['<C-e>'] = cmp.mapping.abort(),
-            ['<CR>'] = cmp.mapping.confirm({ select = true }),
-          })
-        '';
+        mapping.__raw = # Lua
+          ''
+            cmp.mapping.preset.insert({
+              ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+              ['<C-f>'] = cmp.mapping.scroll_docs(4),
+              ['<C-Space>'] = cmp.mapping.complete(),
+              ['<C-e>'] = cmp.mapping.abort(),
+              ['<CR>'] = cmp.mapping.confirm({ select = true }),
+            })
+          '';
       };
     };
   };
