@@ -21,6 +21,7 @@
     relativenumber = true;
     termguicolors = true;
     fileencoding = "utf-8";
+    showtabline = 0;
     expandtab = true;
     tabstop = 2;
     softtabstop = 2;
