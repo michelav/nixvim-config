@@ -3,6 +3,8 @@
     oil.enable = true;
     trouble.enable = true;
     web-devicons.enable = true;
+    fugitive.enable = true;
+    gitsigns.enable = true;
     nvim-tree = {
       enable = true;
       autoClose = true;
