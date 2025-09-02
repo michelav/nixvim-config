@@ -2,25 +2,25 @@
   lsp = {
     inlayHints.enable = true;
     servers = {
-      ts_ls.enable = true;
-      biome.enable = true;
       nixd.enable = true;
     };
   };
   plugins = {
+    dap.enable = true;
+    dap-ui.enable = true;
     treesitter.enable = true;
+    treesitter-textobjects.enable = true;
+    lint = {
+      enable = true;
+      lintersByFt = {
+        nix = [ "nix" ];
+      };
+    };
     conform-nvim = {
       enable = true;
       settings = {
         formatters_by_ft = {
-          typescript = [ "prettier" ];
           nix = [ "nixfmt" ];
-          javascript = {
-            __unkeyed-1 = "prettierd";
-            __unkeyed-2 = "prettier";
-            timeout_ms = 2000;
-            stop_after_first = true;
-          };
         };
         format_on_save = {
           lsp_format = "fallback";

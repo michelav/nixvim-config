@@ -24,7 +24,7 @@
           nixvimLib = nixvim.lib.${system};
           nixvim' = nixvim.legacyPackages.${system};
           pkgs = nixpkgs.legacyPackages.${system};
-          nixvimModule = {
+          baseNixvimModule = {
             inherit system; # or alternatively, set `pkgs`
             module = import ./config; # import the module directly
             # You can use `extraSpecialArgs` to pass additional arguments to your module files
@@ -32,18 +32,50 @@
               # inherit (inputs) foo;
             };
           };
-          nvim = nixvim'.makeNixvimWithModule nixvimModule;
+          jsNixvimModule = {
+            inherit system pkgs; # or alternatively, set `pkgs`
+            module =
+              { pkgs, ... }:
+              {
+                imports = [
+                  ./config
+                  ./config/js
+                ];
+              };
+            extraSpecialArgs = {
+              # inherit (inputs) foo;
+            };
+          };
+          pythonNixvimModule = {
+            inherit system pkgs; # or alternatively, set `pkgs`
+            module =
+              { pkgs, ... }:
+              {
+                imports = [
+                  ./config
+                  ./config/python
+                ];
+              };
+            extraSpecialArgs = {
+              # inherit (inputs) foo;
+            };
+          };
+          nvim = nixvim'.makeNixvimWithModule baseNixvimModule;
+          jsNvim = nixvim'.makeNixvimWithModule jsNixvimModule;
+          pythonNvim = nixvim'.makeNixvimWithModule pythonNixvimModule;
         in
         {
           formatter = pkgs.nixfmt-tree;
           checks = {
             # Run `nix flake check .` to verify that your config is not broken
-            default = nixvimLib.check.mkTestDerivationFromNixvimModule nixvimModule;
+            default = nixvimLib.check.mkTestDerivationFromNixvimModule baseNixvimModule;
           };
 
           packages = {
             # Lets you run `nix run .` to start nixvim
             default = nvim;
+            js = jsNvim;
+            python = pythonNvim;
           };
         };
     };
