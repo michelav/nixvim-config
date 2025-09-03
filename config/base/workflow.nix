@@ -75,16 +75,25 @@
       action = ":bd<cr>";
       key = "<leader>q";
       mode = [ "n" ];
+      options = {
+        silent = true;
+      };
     }
     {
       action = ":bp<cr>";
       key = "<leader>[";
       mode = [ "n" ];
+      options = {
+        silent = true;
+      };
     }
     {
       action = ":bn<cr>";
       key = "<leader>]";
       mode = [ "n" ];
+      options = {
+        silent = true;
+      };
     }
   ];
 }
