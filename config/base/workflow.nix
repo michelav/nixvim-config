@@ -71,5 +71,20 @@
       key = "<leader>fs";
       mode = [ "n" ];
     }
+    {
+      action = ":bd<cr>";
+      key = "<leader>q";
+      mode = [ "n" ];
+    }
+    {
+      action = ":bp<cr>";
+      key = "<leader>[";
+      mode = [ "n" ];
+    }
+    {
+      action = ":bn<cr>";
+      key = "<leader>]";
+      mode = [ "n" ];
+    }
   ];
 }
