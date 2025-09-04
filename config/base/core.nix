@@ -86,6 +86,7 @@
           ];
         };
       };
+      luaConfig.pre = "local luasnip = require('luasnip')";
       settings = {
         completion.autocomplete = [ "require('cmp.types').cmp.TriggerEvent.TextChanged" ];
         window = {
@@ -109,7 +110,7 @@
         ];
         snippet.expand.__raw = ''
           function(args)
-            require('luasnip').lsp_expand(args.body)
+            luasnip.lsp_expand(args.body)
           end
         '';
         mapping.__raw = # Lua
@@ -119,7 +120,6 @@
               ['<C-f>'] = cmp.mapping.scroll_docs(4),
               ['<C-Space>'] = cmp.mapping.complete(),
               ['<C-e>'] = cmp.mapping.abort(),
-              ['<CR>'] = cmp.mapping.confirm({ select = true }),
               ['<CR>'] = cmp.mapping(function(fallback)
                 if cmp.visible() then
                     if luasnip.expandable() then
