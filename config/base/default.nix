@@ -37,6 +37,7 @@
     exrc = true;
     list = true;
     listchars.__raw = "{ tab = '» ', trail = '·', nbsp = '␣', eol = '↴'}";
+    splitbelow = true;
   };
 
   globals = {
