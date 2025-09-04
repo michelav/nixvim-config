@@ -1,11 +1,76 @@
+{ lib, ... }:
 {
   lsp = {
     inlayHints.enable = true;
     servers = {
       nixd.enable = true;
     };
+    keymaps = [
+      {
+        key = "gd";
+        lspBufAction = "definition";
+        options.desc = "Go to the definition";
+      }
+      {
+        key = "gD";
+        lspBufAction = "declaration";
+        options.desc = "Go to the declaration";
+      }
+      {
+        key = "gr";
+        lspBufAction = "references";
+        options.desc = "Go to the references";
+      }
+      {
+        key = "gt";
+        lspBufAction = "type_definition";
+        options.desc = "Go to the type definition";
+      }
+      {
+        key = "gi";
+        lspBufAction = "implementation";
+        options.desc = "Go to the implementation";
+      }
+      {
+        key = "K";
+        action = "<CMD>Lspsaga hover_doc<Enter>";
+        options.desc = "Documentation hover";
+      }
+      {
+        action = lib.nixvim.mkRaw "function() vim.diagnostic.jump({ count=-1, float=true }) end";
+        key = "<leader>k";
+        options.desc = "Previous diagnostic item";
+      }
+      {
+        action = lib.nixvim.mkRaw "function() vim.diagnostic.jump({ count=1, float=true }) end";
+        key = "<leader>j";
+        options.desc = "Next diagnostic item";
+      }
+      {
+        action = "<CMD>LspStop<Enter>";
+        key = "<leader>lx";
+      }
+      {
+        action = "<CMD>LspStart<Enter>";
+        key = "<leader>ls";
+      }
+      {
+        action = "<CMD>LspRestart<Enter>";
+        key = "<leader>lr";
+      }
+      {
+        action = "<CMD>Lspsaga outline<Enter>";
+        key = "<leader>o";
+        options.desc = "Saga outline";
+      }
+      {
+        action = lib.nixvim.mkRaw "require('telescope.builtin').lsp_definitions";
+        key = "gd";
+      }
+    ];
   };
   plugins = {
+    which-key.enable = true;
     dap.enable = true;
     dap-ui.enable = true;
     treesitter = {
@@ -36,6 +101,16 @@
     lsp = {
       enable = true;
       inlayHints = true;
+    };
+    lspsaga = {
+      enable = true;
+      settings = {
+        outline = {
+          enable = true;
+          auto_close = true;
+          close_after_jump = true;
+        };
+      };
     };
     # Snippets
     friendly-snippets.enable = true;
