@@ -15,6 +15,7 @@
     colorscheme = "nord";
   };
   plugins = {
+    todo-comments.enable = true;
     indent-blankline.enable = true;
     lspkind.enable = true;
     dropbar.enable = true;
