@@ -24,7 +24,6 @@
           nixvimLib = nixvim.lib.${system};
           nixvim' = nixvim.legacyPackages.${system};
           pkgs = nixpkgs.legacyPackages.${system};
-          lib = pkgs.lib;
           baseNixvimModule = {
             inherit system; # or alternatively, set `pkgs`
             module = import ./config; # import the module directly
@@ -72,26 +71,12 @@
             default = nixvimLib.check.mkTestDerivationFromNixvimModule baseNixvimModule;
           };
 
-          packages =
-            let
-              aliasVimBinary =
-                drv: name:
-                drv.overrideAttrs (oa: {
-                  pname = name;
-                  meta = (oa.meta or { }) // {
-                    mainProgram = name;
-                  };
-                  postFixup = (oa.postFixup or "") + ''
-                    ln -sf $out/bin/nvim $out/bin/${name}
-                  '';
-                });
-            in
-            {
-              # Lets you run `nix run .` to start nixvim
-              default = nvim;
-              js = aliasVimBinary jsNvim "nvim-js";
-              python = aliasVimBinary pythonNvim "nvim-python";
-            };
+          packages = {
+            # Lets you run `nix run .` to start nixvim
+            default = nvim;
+            js = jsNvim;
+            python = pythonNvim;
+          };
         };
     };
 }
