@@ -40,6 +40,24 @@
             },
           }
         '';
+        sections.lualine_x = [
+          {
+            __unkeyed-1 = {
+              __raw = ''
+                function() return vim.wo.wrap and "[WRAP]" or "" end,
+                cond = function() return true end,     -- render only if non-empty
+                color = function()
+                  if vim.wo.wrap then return { gui = "bold" } end
+                end,
+                padding = { left = 1, right = 1 },
+                separator = "",
+              '';
+            };
+          }
+          "encoding"
+          "fileformat"
+          "filetype"
+        ];
       };
     };
   };
