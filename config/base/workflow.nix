@@ -85,8 +85,13 @@
   };
   keymaps = [
     {
-      action = ":NvimTreeFindFileToggle<cr>";
       key = "<leader>e";
+      action = "<CMD>Lspsaga show_line_diagnostics<cr>";
+      mode = [ "n" ];
+    }
+    {
+      action = ":NvimTreeFindFileToggle<cr>";
+      key = "<leader>x";
       mode = [ "n" ];
     }
 
