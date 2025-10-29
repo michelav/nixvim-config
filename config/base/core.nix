@@ -37,11 +37,6 @@
         options.desc = "Documentation hover";
       }
       {
-        key = "<leader>e";
-        action = "<CMD>Lspsaga show_line_diagnostics<Enter>";
-        options.desc = "Documentation hover";
-      }
-      {
         action = lib.nixvim.mkRaw "function() vim.diagnostic.jump({ count=-1, float=true }) end";
         key = "[d";
         options.desc = "Previous diagnostic item";
