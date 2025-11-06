@@ -4,6 +4,7 @@
     inlayHints.enable = true;
     servers = {
       nixd.enable = true;
+      biome.enable = true;
     };
     keymaps = [
       {
@@ -91,6 +92,7 @@
       settings = {
         formatters_by_ft = {
           nix = [ "nixfmt" ];
+          json = [ "biome" ];
         };
         format_on_save = {
           lsp_format = "fallback";
