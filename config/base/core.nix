@@ -5,6 +5,7 @@
     servers = {
       nixd.enable = true;
       biome.enable = true;
+      just.enable = true;
     };
     keymaps = [
       {
