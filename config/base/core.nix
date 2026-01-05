@@ -79,7 +79,8 @@
       enable = true;
       settings.highlight.enable = true;
     };
-    treesitter-textobjects.enable = true;
+    # FIXME: Re-enable when textobjects are fixed
+    # treesitter-textobjects.enable = true;
     hmts.enable = true; # Home Manager Treesitter queries
     ledger.enable = true;
     lint = {
