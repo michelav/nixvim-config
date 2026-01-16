@@ -1,5 +1,13 @@
-_: {
+{ pkgs, ... }:
+{
 
+  # TODO: Remove it after issue https://github.com/NixOS/nixpkgs/issues/478561 is resolved
+  extraFiles = {
+    "queries/ecma/highlights.scm".source = pkgs.fetchurl {
+      url = "https://raw.githubusercontent.com/nvim-treesitter/nvim-treesitter/master/queries/ecma/highlights.scm";
+      sha256 = "sha256-N4NFR+uqnBYMrYfqvTg4fUcisbQNRLq1TY5x0f7/m54=";
+    };
+  };
   autoCmd = [
     {
       desc = "Organize imports when saving";
