@@ -5,6 +5,7 @@
     ./workflow.nix
     ./ui.nix
     ./quickfix.nix
+    ./writing.nix
   ];
 
   # Import all your configuration modules here

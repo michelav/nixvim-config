@@ -14,75 +14,120 @@
       flake-parts,
       ...
     }@inputs:
-    flake-parts.lib.mkFlake { inherit inputs; } {
+    let
       systems = [
         "x86_64-linux"
       ];
-      perSystem =
-        { system, ... }:
+
+      mkPkgs =
+        system:
+        import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowUnfreePredicate = _: true;
+          };
+        };
+
+      mkNixvimModules =
+        {
+          system,
+          spellDictionaries ? [ ],
+        }:
         let
-          nixvimLib = nixvim.lib.${system};
-          nixvim' = nixvim.legacyPackages.${system};
-          pkgs = import nixpkgs {
-            inherit system;
-            config = {
-              allowUnfree = true;
-              allowUnfreePredicate = _: true;
-            };
+          pkgs = mkPkgs system;
+
+          extraSpecialArgs = {
+            inherit spellDictionaries;
           };
+
           baseNixvimModule = {
-            inherit system pkgs; # or alternatively, set `pkgs`
-            module = import ./config; # import the module directly
-            # You can use `extraSpecialArgs` to pass additional arguments to your module files
-            extraSpecialArgs = {
-              # inherit (inputs) foo;
-            };
+            inherit system pkgs;
+            module = import ./config;
+            inherit extraSpecialArgs;
           };
+
           jsNixvimModule = {
-            inherit system pkgs; # or alternatively, set `pkgs`
+            inherit system pkgs;
             module =
-              { pkgs, ... }:
+              { ... }:
               {
                 imports = [
                   ./config
                   ./config/js
                 ];
               };
-            extraSpecialArgs = {
-              # inherit (inputs) foo;
-            };
+            inherit extraSpecialArgs;
           };
+
           pythonNixvimModule = {
-            inherit system pkgs; # or alternatively, set `pkgs`
+            inherit system pkgs;
             module =
-              { pkgs, ... }:
+              { ... }:
               {
                 imports = [
                   ./config
                   ./config/python
                 ];
               };
-            extraSpecialArgs = {
-              # inherit (inputs) foo;
-            };
+            inherit extraSpecialArgs;
           };
-          nvim = nixvim'.makeNixvimWithModule baseNixvimModule;
-          jsNvim = nixvim'.makeNixvimWithModule jsNixvimModule;
-          pythonNvim = nixvim'.makeNixvimWithModule pythonNixvimModule;
+        in
+        {
+          inherit
+            baseNixvimModule
+            jsNixvimModule
+            pythonNixvimModule
+            ;
+        };
+
+      mkNixvimPackages =
+        {
+          system,
+          spellDictionaries ? [ ],
+        }:
+        let
+          nixvim' = nixvim.legacyPackages.${system};
+
+          modules = mkNixvimModules {
+            inherit system spellDictionaries;
+          };
+        in
+        {
+          default = nixvim'.makeNixvimWithModule modules.baseNixvimModule;
+          js = nixvim'.makeNixvimWithModule modules.jsNixvimModule;
+          python = nixvim'.makeNixvimWithModule modules.pythonNixvimModule;
+        };
+    in
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      inherit systems;
+
+      flake.lib = {
+        inherit mkNixvimPackages;
+      };
+
+      perSystem =
+        { system, ... }:
+        let
+          pkgs = mkPkgs system;
+          nixvimLib = nixvim.lib.${system};
+
+          modules = mkNixvimModules {
+            inherit system;
+          };
+
+          packages = mkNixvimPackages {
+            inherit system;
+          };
         in
         {
           formatter = pkgs.nixfmt-tree;
+
           checks = {
-            # Run `nix flake check .` to verify that your config is not broken
-            default = nixvimLib.check.mkTestDerivationFromNixvimModule baseNixvimModule;
+            default = nixvimLib.check.mkTestDerivationFromNixvimModule modules.baseNixvimModule;
           };
 
-          packages = {
-            # Lets you run `nix run .` to start nixvim
-            default = nvim;
-            js = jsNvim;
-            python = pythonNvim;
-          };
+          inherit packages;
         };
     };
 }
