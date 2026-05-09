@@ -4,6 +4,7 @@
     ./core.nix
     ./workflow.nix
     ./ui.nix
+    ./quickfix.nix
   ];
 
   # Import all your configuration modules here
