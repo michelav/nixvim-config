@@ -1,6 +1,7 @@
 {
   plugins = {
     copilot-vim.enable = true;
+    claude-code.enable = true;
     oil.enable = true;
     trouble.enable = true;
     web-devicons.enable = true;
