@@ -145,5 +145,8 @@
       vim.opt_local.softtabstop = use_tabs and 0 or sw
     end
   '';
-  extraPackages = [ pkgs.nixfmt-tree ];
+  extraPackages = [
+    pkgs.nixfmt-tree
+    pkgs.tree-sitter
+  ];
 }

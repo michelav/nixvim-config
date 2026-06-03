@@ -6,6 +6,7 @@
       nixd.enable = true;
       biome.enable = true;
       just.enable = true;
+      tinymist.enable = true;
     };
     keymaps = [
       {
@@ -72,6 +73,7 @@
     ];
   };
   plugins = {
+    typst-preview.enable = true;
     which-key.enable = true;
     dap.enable = true;
     dap-ui.enable = true;
