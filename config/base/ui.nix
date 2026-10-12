@@ -1,3 +1,4 @@
+{ lib, ... }:
 {
   diagnostic.settings = {
     update_in_insert = true;
@@ -11,54 +12,56 @@
 
   colorschemes.base16 = {
     enable = true;
-    colorscheme = "nord";
+    colorscheme = lib.mkDefault "nord";
   };
 
   extraConfigLua = ''
     local function set_spell_highlights()
+      local c = require("base16-colorscheme").colors
+
       -- SpellBad: palavras incorretas
       vim.api.nvim_set_hl(0, "SpellBad", {
         undercurl = true,
-        sp = "#bf616a",
+        sp = c.base08,
       })
 
       -- SpellCap: capitalização suspeita
       vim.api.nvim_set_hl(0, "SpellCap", {
         undercurl = true,
-        sp = "#ebcb8b",
+        sp = c.base0A,
       })
 
       -- SpellRare: palavra rara/incomum
       vim.api.nvim_set_hl(0, "SpellRare", {
         undercurl = true,
-        sp = "#b48ead",
+        sp = c.base0E,
       })
 
       -- SpellLocal: palavra válida em outra região/localidade
       vim.api.nvim_set_hl(0, "SpellLocal", {
         undercurl = true,
-        sp = "#88c0d0",
+        sp = c.base0C,
       })
 
       -- Mantém diagnósticos LSP visualmente consistentes.
       vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", {
         undercurl = true,
-        sp = "#bf616a",
+        sp = c.base08,
       })
 
       vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", {
         undercurl = true,
-        sp = "#ebcb8b",
+        sp = c.base0A,
       })
 
       vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo", {
         undercurl = true,
-        sp = "#88c0d0",
+        sp = c.base0C,
       })
 
       vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", {
         undercurl = true,
-        sp = "#a3be8c",
+        sp = c.base0B,
       })
     end
 
