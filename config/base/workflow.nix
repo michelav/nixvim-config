@@ -131,6 +131,18 @@
       mode = [ "n" ];
     }
     {
+      action = ":Telescope lsp_document_symbols<cr>";
+      key = "<leader>ss";
+      mode = [ "n" ];
+      options.desc = "Search symbols in current document";
+    }
+    {
+      action = ":Telescope lsp_dynamic_workspace_symbols<cr>";
+      key = "<leader>sS";
+      mode = [ "n" ];
+      options.desc = "Search symbols in workspace";
+    }
+    {
       action = ":bd<cr>";
       key = "<leader>q";
       mode = [ "n" ];
